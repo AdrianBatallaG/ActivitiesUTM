@@ -176,8 +176,35 @@
   }
 </script>
 
+<script>
+  let deferredPrompt;
+  const btnInstalar = document.getElementById('btnInstalar');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    btnInstalar.style.display = 'inline-block';
+
+    btnInstalar.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('El usuario aceptó instalar la app');
+        } else {
+          console.log('El usuario canceló la instalación');
+        }
+        deferredPrompt = null;
+      });
+    });
+  });
+</script>
+  
 <body>
   <h2 class="mb-4">Actividades Pendientes</h2>
+
+  <button id="btnInstalar" class="btn btn-success mb-4" style="display:none;">
+  Instalar Aplicación
+  </button>
 
   <div class="mb-3">
     <button id="toggleView" class="btn btn-outline-primary">
