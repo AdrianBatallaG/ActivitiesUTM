@@ -190,7 +190,14 @@
   }
 </script>
 
-<script>
+<body>
+  <h2 class="mb-4">Actividades Pendientes</h2>
+
+  <button id="btnInstalar" class="btn btn-success mb-4" style="display:none;">
+  Instalar Aplicación
+  </button>
+
+  <script>
   let deferredPrompt;
   const btnInstalar = document.getElementById('btnInstalar');
 
@@ -212,13 +219,6 @@
     });
   });
 </script>
-  
-<body>
-  <h2 class="mb-4">Actividades Pendientes</h2>
-
-  <button id="btnInstalar" class="btn btn-success mb-4" style="display:none;">
-  Instalar Aplicación
-  </button>
 
   <div class="mb-3">
     <button id="toggleView" class="btn btn-outline-primary">
