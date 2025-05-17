@@ -94,6 +94,10 @@
       background-color: #ffc107;
       color: #212529;
     }
+    .forense .card-header {
+      background-color: #ffc107;
+      color: #212529;
+    }
     
     .lista-item.emprendimiento .lista-header {
        background-color: #dc3545;
@@ -105,6 +109,10 @@
       background-color: #28a745;
     }
     .lista-item.sistemas .lista-header {
+      background-color: #ffc107;
+      color: #212529;
+    }
+    .lista-item.forense .lista-header {
       background-color: #ffc107;
       color: #212529;
     }
@@ -294,6 +302,7 @@
               else if (materia.includes("Computacion")) claseMateria = "computacion";
               else if (materia.includes("Seminario")) claseMateria = "seminario";
               else if (materia.includes("Sistemas")) claseMateria = "sistemas";
+              else if (materia.includes("Forense")) claseMateria = "forense";
 
               let vencido = false;
               if (fechaCierre && fechaCierre !== "") {
