@@ -1,0 +1,211 @@
+body {
+  font-family: sans-serif;
+  background: #f7f7f7;
+  padding: 20px;
+  text-align: center;
+}
+
+.carousel-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.carousel-inner {
+  border-radius: 10px;
+  overflow: visible;
+}
+
+.carousel-item {
+  transition: transform 0.6s ease;
+  padding: 15px;
+}
+
+.card {
+  width: 550px;
+  min-height: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: none;
+  margin: 0 auto;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-header {
+  color: white;
+  text-align: center;
+  padding: 15px;
+  text-transform: uppercase;
+  border-radius: 10px 10px 0 0 !important;
+  font-size: 1.1rem;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.descripcion {
+  max-height: 70px;
+  overflow: hidden;
+  position: relative;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+}
+
+.descripcion.expandido {
+  max-height: none;
+}
+
+.ver-mas {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9em;
+  display: block;
+  margin-top: 10px;
+}
+/* Colores por materia - aplicables a actividades y horarios */
+.materia-emprendimiento {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+.materia-computacion {
+  background-color: #17a2b8 !important;
+  color: white !important;
+}
+.materia-seminario {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+.materia-sistemas, .materia-forense {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+/* Estilos específicos para la tabla de horarios */
+.table-horarios td {
+  padding: 12px 8px;
+  vertical-align: middle;
+}
+
+.dia-combinado {
+  background-color: #f8f9fa !important;
+  font-weight: bold;
+  border-right: 2px solid #dee2e6 !important;
+}
+/* Estilos por materia */
+.emprendimiento .card-header, .lista-item.emprendimiento .lista-header, .horario-emprendimiento {
+  background-color: #dc3545;
+}
+.computacion .card-header, .lista-item.computacion .lista-header, .horario-computacion {
+  background-color: #17a2b8;
+}
+.seminario .card-header, .lista-item.seminario .lista-header, .horario-seminario {
+  background-color: #28a745;
+}
+.sistemas .card-header, .lista-item.sistemas .lista-header, .horario-sistemas {
+  background-color: #ffc107;
+  color: #212529;
+}
+.forense .card-header, .lista-item.forense .lista-header {
+  background-color: #581845;
+}
+
+.vencido .card-header, .lista-vencido .lista-header, .horario-forense {
+  background-color: #6c757d !important;
+}
+
+/* Controles del carrusel */
+.carousel-control-prev, .carousel-control-next {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel-control-prev {
+  left: -30px;
+}
+
+.carousel-control-next {
+  right: -30px;
+}
+
+/* Estilos para lista */
+.lista-item {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.lista-header {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Barra de progreso */
+.progress-container {
+  max-width: 600px;
+  margin: 15px auto;
+}
+
+/* Estilos para horarios */
+.dia-combinado {
+  vertical-align: middle !important;
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.table-responsive a {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+.table-responsive a:hover {
+  color: #0a58ca;
+}
+
+.clase-actual {
+  background-color: #e7f5ff !important;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carousel-container, .progress-container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+  
+  .card {
+    width: 100%;
+    min-height: auto;
+  }
+  
+  .carousel-control-prev {
+    left: 5px;
+  }
+  
+  .carousel-control-next {
+    right: 5px;
+  }
+}
