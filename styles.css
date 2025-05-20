@@ -71,7 +71,7 @@ body {
   display: block;
   margin-top: 10px;
 }
-/* Colores por materia - aplicables a actividades y horarios */
+
 .materia-emprendimiento {
   background-color: #dc3545 !important;
   color: white !important;
@@ -89,7 +89,6 @@ body {
   color: #212529 !important;
 }
 
-/* Estilos específicos para la tabla de horarios */
 .table-horarios td {
   padding: 12px 8px;
   vertical-align: middle;
@@ -100,7 +99,7 @@ body {
   font-weight: bold;
   border-right: 2px solid #dee2e6 !important;
 }
-/* Estilos por materia */
+
 .emprendimiento .card-header, .lista-item.emprendimiento .lista-header, .horario-emprendimiento {
   background-color: #dc3545;
 }
@@ -122,7 +121,6 @@ body {
   background-color: #6c757d !important;
 }
 
-/* Controles del carrusel */
 .carousel-control-prev, .carousel-control-next {
   width: 50px;
   height: 50px;
@@ -140,7 +138,6 @@ body {
   right: -30px;
 }
 
-/* Estilos para lista */
 .lista-item {
   background: white;
   border-radius: 8px;
@@ -162,13 +159,11 @@ body {
   margin-bottom: 10px;
 }
 
-/* Barra de progreso */
 .progress-container {
   max-width: 600px;
   margin: 15px auto;
 }
 
-/* Estilos para horarios */
 .dia-combinado {
   vertical-align: middle !important;
   background-color: #f8f9fa;
@@ -189,7 +184,6 @@ body {
   font-weight: bold;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .carousel-container, .progress-container {
     max-width: 100%;
