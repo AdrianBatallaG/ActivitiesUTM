@@ -52,14 +52,14 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Service Worker
+    
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js")
         .then(reg => console.log("Service Worker registrado."))
         .catch(err => console.log("Error al registrar Service Worker:", err));
     }
 
-    // Instalación PWA
+    
     let deferredPrompt;
     const btnInstalar = document.getElementById('btnInstalar');
 
@@ -81,10 +81,10 @@
       });
     });
 
-    // Código principal
+    
     document.addEventListener('DOMContentLoaded', function() {
       const sheetID = "1gpQfqJbIcWaNMjXOmqXMdj5riHjGZY_eguo1hnmGgv4";
-      const gidHorarios = "1765547223"; // Reemplaza con el gid de tu hoja de horarios
+      const gidHorarios = "1765547223"; 
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
       
       const elementos = {
@@ -101,7 +101,7 @@
       let actividadesData = [];
       let horariosData = [];
 
-      // Cargar datos iniciales
+      
       fetch(url)
         .then(res => res.text())
         .then(data => {
@@ -109,7 +109,6 @@
             const jsonData = JSON.parse(data.substr(47).slice(0, -2));
             actividadesData = jsonData.table.rows;
             
-            // Cargar horarios
             cargarHorarios(sheetID, gidHorarios).then(data => {
               horariosData = data;
             });
@@ -128,13 +127,11 @@
           console.error("Error al cargar datos:", error);
           showError();
         });
-
-      // Event listeners
+      
       elementos.toggleViewBtn.addEventListener('click', toggleVista);
       elementos.toggleVencidasBtn.addEventListener('click', toggleActividadesVencidas);
       elementos.verHorariosBtn.addEventListener('click', mostrarHorariosModal);
 
-      // Funciones
       function cargarHorarios(sheetID, gid) {
         const horariosUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&gid=${gid}`;
         
@@ -321,8 +318,7 @@
           alert("Los horarios no se han cargado todavía. Intenta nuevamente en unos momentos.");
           return;
         }
-
-        // Agrupar horarios por día
+        
         const horariosPorDia = {};
         horariosData.forEach(horario => {
           if (!horariosPorDia[horario.dia]) {
@@ -331,7 +327,6 @@
           horariosPorDia[horario.dia].push(horario);
         });
 
-        // Generar filas combinadas
         let filasHTML = '';
         Object.entries(horariosPorDia).forEach(([dia, clases]) => {
           filasHTML += `
@@ -351,7 +346,6 @@
             </tr>
           `;
 
-          // Filas adicionales para el mismo día
           for (let i = 1; i < clases.length; i++) {
             filasHTML += `
               <tr class="${esClaseActual(dia, clases[i].hora) ? 'clase-actual' : ''}">
