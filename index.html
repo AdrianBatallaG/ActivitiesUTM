@@ -6,231 +6,24 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#ffffff">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f7f7f7;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .carousel-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .carousel-inner {
-      border-radius: 10px;
-      overflow: visible;
-    }
-
-    .carousel-item {
-      transition: transform 0.6s ease;
-      padding: 15px;
-    }
-
-    .card {
-      width: 550px;
-      min-height: 300px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      border: none;
-      margin: 0 auto;
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    .card-header {
-      color: white;
-      text-align: center;
-      padding: 15px;
-      text-transform: uppercase;
-      border-radius: 10px 10px 0 0 !important;
-      font-size: 1.1rem;
-    }
-
-    .card-title {
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-    }
-
-    .card-text {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    .descripcion {
-      max-height: 70px;
-      overflow: hidden;
-      position: relative;
-      word-wrap: break-word;
-      font-size: 0.95rem;
-    }
-
-    .descripcion.expandido {
-      max-height: none;
-    }
-
-    .ver-mas {
-      color: #007bff;
-      cursor: pointer;
-      font-size: 0.9em;
-      display: block;
-      margin-top: 10px;
-    }
-
-    .emprendimiento .card-header {
-      background-color: #dc3545;
-    }
-    .computacion .card-header {
-      background-color: #17a2b8;
-    }
-    .seminario .card-header {
-      background-color: #28a745;
-    }
-    .sistemas .card-header {
-      background-color: #ffc107;
-      color: #212529;
-    }
-    .forense .card-header {
-      background-color: #ffc107;
-      color: #212529;
-    }
-    
-    .lista-item.emprendimiento .lista-header {
-       background-color: #dc3545;
-    }
-    .lista-item.computacion .lista-header {
-       background-color: #17a2b8;
-    }
-    .lista-item.seminario .lista-header {
-      background-color: #28a745;
-    }
-    .lista-item.sistemas .lista-header {
-      background-color: #ffc107;
-      color: #212529;
-    }
-    .lista-item.forense .lista-header {
-      background-color: #ffc107;
-      color: #212529;
-    }
-
-    .vencido .card-header {
-      background-color: #6c757d !important;
-    }
-
-    .carousel-control-prev, .carousel-control-next {
-      width: 50px;
-      height: 50px;
-      background-color: rgba(0,0,0,0.3);
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .carousel-control-prev {
-      left: -30px;
-    }
-
-    .carousel-control-next {
-      right: -30px;
-    }
-
-    .lista-item {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: left;
-    }
-    
-    .lista-header {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-
-    .lista-vencido .lista-header {
-      background-color: #6c757d !important;
-    }
-
-    .progress-container {
-      max-width: 600px;
-      margin: 15px auto;
-    }
-
-    @media (max-width: 768px) {
-      .carousel-container, .progress-container {
-        max-width: 100%;
-        padding: 0 15px;
-      }
-      
-      .card {
-        width: 100%;
-        min-height: auto;
-      }
-      
-      .carousel-control-prev {
-        left: 5px;
-      }
-      
-      .carousel-control-next {
-        right: 5px;
-      }
-    }
-  </style>
+  <link href="styles.css" rel="stylesheet">
 </head>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(reg => console.log("Service Worker registrado."))
-      .catch(err => console.log("Error al registrar Service Worker:", err));
-  }
-</script>
-
 <body>
   <h2 class="mb-4">Actividades Pendientes</h2>
 
   <button id="btnInstalar" class="btn btn-success mb-4" style="display:none;">
-  Instalar Aplicación
+    Instalar Aplicación
   </button>
-
-  <script>
-  let deferredPrompt;
-  const btnInstalar = document.getElementById('btnInstalar');
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    btnInstalar.style.display = 'inline-block';
-
-    btnInstalar.addEventListener('click', () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('El usuario aceptó instalar la app');
-        } else {
-          console.log('El usuario canceló la instalación');
-        }
-        deferredPrompt = null;
-      });
-    });
-  });
-</script>
 
   <div class="mb-3">
     <button id="toggleView" class="btn btn-outline-primary">
       Ver como Lista
+    </button>
+    <button id="toggleVencidas" class="btn btn-outline-secondary">
+      Mostrar vencidas
+    </button>
+    <button id="verHorarios" class="btn btn-outline-info">
+      Ver horarios
     </button>
   </div>
 
@@ -243,9 +36,7 @@
 
   <div class="carousel-container" id="carouselContainer">
     <div id="actividadesCarousel" class="carousel slide" data-bs-ride="false">
-      <div class="carousel-inner" id="carousel-actividades">
-
-      </div>
+      <div class="carousel-inner" id="carousel-actividades"></div>
       <button class="carousel-control-prev" type="button" data-bs-target="#actividadesCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Anterior</span>
@@ -257,115 +48,76 @@
     </div>
   </div>
 
-
-  <div id="lista-actividades" class="d-none container">
-
-  </div>
+  <div id="lista-actividades" class="d-none container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Service Worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(reg => console.log("Service Worker registrado."))
+        .catch(err => console.log("Error al registrar Service Worker:", err));
+    }
+
+    // Instalación PWA
+    let deferredPrompt;
+    const btnInstalar = document.getElementById('btnInstalar');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      btnInstalar.style.display = 'inline-block';
+
+      btnInstalar.addEventListener('click', () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('El usuario aceptó instalar la app');
+          } else {
+            console.log('El usuario canceló la instalación');
+          }
+          deferredPrompt = null;
+        });
+      });
+    });
+
+    // Código principal
     document.addEventListener('DOMContentLoaded', function() {
       const sheetID = "1gpQfqJbIcWaNMjXOmqXMdj5riHjGZY_eguo1hnmGgv4";
+      const gidHorarios = "1765547223"; // Reemplaza con el gid de tu hoja de horarios
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
-      const carouselInner = document.getElementById('carousel-actividades');
-      const listaContainer = document.getElementById('lista-actividades');
-      const toggleViewBtn = document.getElementById('toggleView');
-      const carouselContainer = document.getElementById('carouselContainer');
-      const progressContainer = document.getElementById('progressContainer');
+      
+      const elementos = {
+        carouselInner: document.getElementById('carousel-actividades'),
+        listaContainer: document.getElementById('lista-actividades'),
+        toggleViewBtn: document.getElementById('toggleView'),
+        carouselContainer: document.getElementById('carouselContainer'),
+        progressContainer: document.getElementById('progressContainer'),
+        toggleVencidasBtn: document.getElementById('toggleVencidas'),
+        verHorariosBtn: document.getElementById('verHorarios')
+      };
 
+      let mostrarVencidas = false;
+      let actividadesData = [];
+      let horariosData = [];
+
+      // Cargar datos iniciales
       fetch(url)
         .then(res => res.text())
         .then(data => {
           try {
             const jsonData = JSON.parse(data.substr(47).slice(0, -2));
-            const today = new Date();
+            actividadesData = jsonData.table.rows;
             
-            carouselInner.innerHTML = '';
-            listaContainer.innerHTML = '';
-
-            if (!jsonData.table.rows || jsonData.table.rows.length === 0) {
-              showNoActivities();
-              return;
-            }
-
-            jsonData.table.rows.forEach((row, index) => {
-              const c = row.c;
-              const materia = c[0]?.v || "Sin materia";
-              const actividad = c[1]?.v || "Sin título";
-              const fechaApertura = formatFecha(c[2]);
-              const fechaCierre = formatFecha(c[3]);
-              const descripcion = c[4]?.v || "Sin descripción";
-              const enlace = c[5]?.v || "#";
-
-              let claseMateria = "";
-              if (materia.includes("Emprendimiento")) claseMateria = "emprendimiento";
-              else if (materia.includes("Computacion")) claseMateria = "computacion";
-              else if (materia.includes("Seminario")) claseMateria = "seminario";
-              else if (materia.includes("Sistemas")) claseMateria = "sistemas";
-              else if (materia.includes("Forense")) claseMateria = "forense";
-
-              let vencido = false;
-              if (fechaCierre && fechaCierre !== "") {
-                const partes = fechaCierre.split("/");
-                if (partes.length === 3) {
-                  const cierreDate = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
-                  if (cierreDate < today) {
-                    vencido = true;
-                  }
-                }
-              }
-
-              const carouselItem = document.createElement('div');
-              carouselItem.className = `carousel-item ${index === 0 ? 'active' : ''}`;
-              carouselItem.dataset.index = index;
-
-              carouselItem.innerHTML = `
-                <div class="card ${vencido ? 'vencido' : claseMateria}">
-                  <div class="card-header">${materia}</div>
-                  <div class="card-body">
-                    <h5 class="card-title">${actividad}</h5>
-                    <p class="card-text"><strong>Apertura:</strong> ${fechaApertura}</p>
-                    <p class="card-text"><strong>Cierre:</strong> ${fechaCierre}</p>
-                    <div class="descripcion">${descripcion}</div>
-                    <span class="ver-mas" onclick="toggleDescripcion(this)">Ver más</span>
-                    <div class="mt-3">
-                      <a href="${enlace}" target="_blank" class="btn btn-primary btn-sm">Ver enlace</a>
-                    </div>
-                  </div>
-                </div>
-              `;
-              
-              carouselInner.appendChild(carouselItem);
-
-              const listaItem = document.createElement('div');
-              listaItem.className = `lista-item ${vencido ? 'lista-vencido' : claseMateria}`;
-              listaItem.innerHTML = `
-                <div class="lista-header">${materia}</div>
-                <h5>${actividad}</h5>
-                <p><strong>Apertura:</strong> ${fechaApertura}</p>
-                <p><strong>Cierre:</strong> ${fechaCierre}</p>
-                <div class="descripcion">${descripcion}</div>
-                <span class="ver-mas" onclick="toggleDescripcion(this)">Ver más</span>
-                <div class="mt-3">
-                  <a href="${enlace}" target="_blank" class="btn btn-primary btn-sm">Ver enlace</a>
-                </div>
-              `;
-              
-              listaContainer.appendChild(listaItem);
+            // Cargar horarios
+            cargarHorarios(sheetID, gidHorarios).then(data => {
+              horariosData = data;
             });
 
-            const carousel = new bootstrap.Carousel(document.getElementById('actividadesCarousel'), {
-              interval: false
-            });
-
-            setupCarouselControls();
-            progressContainer.classList.remove('d-none');
-            updateProgress(0, jsonData.table.rows.length);
-
-            document.getElementById('actividadesCarousel').addEventListener('slid.bs.carousel', function() {
-              const activeIndex = document.querySelector('.carousel-item.active').dataset.index;
-              updateProgress(parseInt(activeIndex) + 1, jsonData.table.rows.length);
-            });
+            filtrarYMostrarActividades();
+            inicializarCarrusel();
+            elementos.progressContainer.classList.remove('d-none');
+            updateProgress(0, actividadesData.length);
 
           } catch (error) {
             console.error("Error al procesar datos:", error);
@@ -377,21 +129,297 @@
           showError();
         });
 
-      toggleViewBtn.addEventListener('click', function() {
-        if (listaContainer.classList.contains('d-none')) {
+      // Event listeners
+      elementos.toggleViewBtn.addEventListener('click', toggleVista);
+      elementos.toggleVencidasBtn.addEventListener('click', toggleActividadesVencidas);
+      elementos.verHorariosBtn.addEventListener('click', mostrarHorariosModal);
 
-          carouselContainer.classList.add('d-none');
-          listaContainer.classList.remove('d-none');
-          progressContainer.classList.add('d-none');
+      // Funciones
+      function cargarHorarios(sheetID, gid) {
+        const horariosUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&gid=${gid}`;
+        
+        return fetch(horariosUrl)
+          .then(res => {
+            if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+            return res.text();
+          })
+          .then(text => {
+            try {
+              const json = JSON.parse(text.substr(47).slice(0, -2));
+              return json.table.rows.map(row => {
+                const c = row.c;
+                return {
+                  dia: c[0]?.v || "",
+                  hora: c[1]?.v || "",
+                  materia: c[2]?.v || "",
+                  aula: c[3]?.v ? (esEnlace(c[3].v) ? `<a href="${formatearEnlace(c[3].v)}" target="_blank">Aula Virtual</a>` : c[3].v) : ""
+                };
+              });
+            } catch (e) {
+              console.error("Error al parsear horarios:", e);
+              return [];
+            }
+          })
+          .catch(error => {
+            console.error("Error al cargar horarios:", error);
+            return [];
+          });
+      }
+
+      function esEnlace(texto) {
+        return texto.includes('http://') || texto.includes('https://');
+      }
+
+      function formatearEnlace(texto) {
+        if (!texto.startsWith('http')) {
+          return 'https://' + texto;
+        }
+        return texto;
+      }
+
+      function filtrarYMostrarActividades() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const filteredData = actividadesData.filter(row => {
+          if (mostrarVencidas) return true;
+          
+          const c = row.c;
+          const fechaCierre = formatFecha(c[3]);
+          if (!fechaCierre || fechaCierre === "No especificada") return true;
+          
+          const partes = fechaCierre.split("/");
+          if (partes.length === 3) {
+            const cierreDate = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
+            cierreDate.setHours(0, 0, 0, 0);
+            const diffTime = today - cierreDate;
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+            return diffDays <= 1;
+          }
+          return true;
+        });
+
+        elementos.carouselInner.innerHTML = '';
+        elementos.listaContainer.innerHTML = '';
+
+        if (!filteredData || filteredData.length === 0) {
+          showNoActivities();
+          return;
+        }
+
+        filteredData.forEach((row, index) => {
+          const c = row.c;
+          const materia = c[0]?.v || "Sin materia";
+          const actividad = c[1]?.v || "Sin título";
+          const fechaApertura = formatFecha(c[2]);
+          const fechaCierre = formatFecha(c[3]);
+          const descripcion = c[4]?.v || "Sin descripción";
+          const enlace = c[5]?.v || "#";
+
+          let claseMateria = "";
+          if (materia.includes("Emprendimiento")) claseMateria = "emprendimiento";
+          else if (materia.includes("Computacion")) claseMateria = "computacion";
+          else if (materia.includes("Seminario")) claseMateria = "seminario";
+          else if (materia.includes("Sistemas")) claseMateria = "sistemas";
+          else if (materia.includes("Forense")) claseMateria = "forense";
+
+          let vencido = false;
+          if (fechaCierre && fechaCierre !== "No especificada") {
+            const partes = fechaCierre.split("/");
+            if (partes.length === 3) {
+              const cierreDate = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
+              if (cierreDate < today) {
+                vencido = true;
+              }
+            }
+          }
+
+          const carouselItem = document.createElement('div');
+          carouselItem.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+          carouselItem.dataset.index = index;
+
+          carouselItem.innerHTML = `
+            <div class="card ${vencido ? 'vencido' : claseMateria}">
+              <div class="card-header">${materia}</div>
+              <div class="card-body">
+                <h5 class="card-title">${actividad}</h5>
+                <p class="card-text"><strong>Apertura:</strong> ${fechaApertura}</p>
+                <p class="card-text"><strong>Cierre:</strong> ${fechaCierre}</p>
+                <div class="descripcion">${descripcion}</div>
+                <span class="ver-mas" onclick="toggleDescripcion(this)">Ver más</span>
+                <div class="mt-3">
+                  <a href="${enlace}" target="_blank" class="btn btn-primary btn-sm">Ver enlace</a>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          elementos.carouselInner.appendChild(carouselItem);
+
+          const listaItem = document.createElement('div');
+          listaItem.className = `lista-item ${vencido ? 'lista-vencido' : claseMateria}`;
+          listaItem.innerHTML = `
+            <div class="lista-header">${materia}</div>
+            <h5>${actividad}</h5>
+            <p><strong>Apertura:</strong> ${fechaApertura}</p>
+            <p><strong>Cierre:</strong> ${fechaCierre}</p>
+            <div class="descripcion">${descripcion}</div>
+            <span class="ver-mas" onclick="toggleDescripcion(this)">Ver más</span>
+            <div class="mt-3">
+              <a href="${enlace}" target="_blank" class="btn btn-primary btn-sm">Ver enlace</a>
+            </div>
+          `;
+          
+          elementos.listaContainer.appendChild(listaItem);
+        });
+
+        if (document.querySelectorAll('.carousel-item').length > 0) {
+          const carousel = bootstrap.Carousel.getInstance(document.getElementById('actividadesCarousel')) || 
+            new bootstrap.Carousel(document.getElementById('actividadesCarousel'), {
+              interval: false
+            });
+          carousel.to(0);
+          setupCarouselControls();
+          elementos.progressContainer.classList.remove('d-none');
+          updateProgress(0, filteredData.length);
+        }
+      }
+
+      function inicializarCarrusel() {
+        const carousel = new bootstrap.Carousel(document.getElementById('actividadesCarousel'), {
+          interval: false
+        });
+
+        document.getElementById('actividadesCarousel').addEventListener('slid.bs.carousel', function() {
+          const activeIndex = document.querySelector('.carousel-item.active').dataset.index;
+          updateProgress(parseInt(activeIndex) + 1, actividadesData.length);
+        });
+      }
+
+      function toggleVista() {
+        if (elementos.listaContainer.classList.contains('d-none')) {
+          elementos.carouselContainer.classList.add('d-none');
+          elementos.listaContainer.classList.remove('d-none');
+          elementos.progressContainer.classList.add('d-none');
           this.textContent = 'Ver como Carrusel';
         } else {
-
-          carouselContainer.classList.remove('d-none');
-          listaContainer.classList.add('d-none');
-          progressContainer.classList.remove('d-none');
+          elementos.carouselContainer.classList.remove('d-none');
+          elementos.listaContainer.classList.add('d-none');
+          elementos.progressContainer.classList.remove('d-none');
           this.textContent = 'Ver como Lista';
         }
-      });
+      }
+
+      function toggleActividadesVencidas() {
+        mostrarVencidas = !mostrarVencidas;
+        this.textContent = mostrarVencidas ? 'Ocultar vencidas' : 'Mostrar vencidas';
+        filtrarYMostrarActividades();
+      }
+
+      function mostrarHorariosModal() {
+        if (horariosData.length === 0) {
+          alert("Los horarios no se han cargado todavía. Intenta nuevamente en unos momentos.");
+          return;
+        }
+
+        // Agrupar horarios por día
+        const horariosPorDia = {};
+        horariosData.forEach(horario => {
+          if (!horariosPorDia[horario.dia]) {
+            horariosPorDia[horario.dia] = [];
+          }
+          horariosPorDia[horario.dia].push(horario);
+        });
+
+        // Generar filas combinadas
+        let filasHTML = '';
+        Object.entries(horariosPorDia).forEach(([dia, clases]) => {
+          filasHTML += `
+            <tr>
+              <td rowspan="${clases.length}" class="dia-combinado ${esClaseActual(dia, clases[0].hora) ? 'clase-actual' : ''}">
+                ${dia}
+              </td>
+              <td class="${esClaseActual(dia, clases[0].hora) ? 'clase-actual' : ''}">
+                ${clases[0].hora}
+              </td>
+              <td class="${esClaseActual(dia, clases[0].hora) ? 'clase-actual' : ''}">
+                ${clases[0].materia}
+              </td>
+              <td class="${esClaseActual(dia, clases[0].hora) ? 'clase-actual' : ''}">
+                ${clases[0].aula}
+              </td>
+            </tr>
+          `;
+
+          // Filas adicionales para el mismo día
+          for (let i = 1; i < clases.length; i++) {
+            filasHTML += `
+              <tr class="${esClaseActual(dia, clases[i].hora) ? 'clase-actual' : ''}">
+                <td>${clases[i].hora}</td>
+                <td>${clases[i].materia}</td>
+                <td>${clases[i].aula}</td>
+              </tr>
+            `;
+          }
+        });
+
+        const modalHTML = `
+          <div class="modal fade" id="horariosModal" tabindex="-1" aria-labelledby="horariosModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="horariosModalLabel">Horarios de Clase</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-horarios">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Día</th>
+                          <th>Hora</th>
+                          <th>Materia</th>
+                          <th>Aula</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${filasHTML}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (!document.getElementById('horariosModal')) {
+          document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('horariosModal'));
+        modal.show();
+      }
+
+      function esClaseActual(dia, rangoHoras) {
+        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const hoy = diasSemana[new Date().getDay()];
+        
+        if (hoy !== dia) return false;
+        
+        const [horaInicio, horaFin] = rangoHoras.split(' - ').map(h => {
+          const [hh, mm] = h.split(':').map(Number);
+          return hh * 60 + mm;
+        });
+        
+        const ahora = new Date();
+        const minutosActuales = ahora.getHours() * 60 + ahora.getMinutes();
+        
+        return minutosActuales >= horaInicio && minutosActuales <= horaFin;
+      }
 
       function formatFecha(cell) {
         if (!cell || !cell.f) return "No especificada";
@@ -443,7 +471,7 @@
       }
 
       function showNoActivities() {
-        carouselInner.innerHTML = `
+        elementos.carouselInner.innerHTML = `
           <div class="carousel-item active">
             <div class="card">
               <div class="card-body text-center">
@@ -453,18 +481,18 @@
           </div>
         `;
         
-        listaContainer.innerHTML = `
+        elementos.listaContainer.innerHTML = `
           <div class="alert alert-info text-center">
             No hay actividades pendientes
           </div>
         `;
         
-        toggleViewBtn.disabled = true;
-        progressContainer.classList.add('d-none');
+        elementos.toggleViewBtn.disabled = true;
+        elementos.progressContainer.classList.add('d-none');
       }
 
       function showError() {
-        carouselInner.innerHTML = `
+        elementos.carouselInner.innerHTML = `
           <div class="carousel-item active">
             <div class="card">
               <div class="card-body text-center text-danger">
@@ -475,14 +503,14 @@
           </div>
         `;
         
-        listaContainer.innerHTML = `
+        elementos.listaContainer.innerHTML = `
           <div class="alert alert-danger text-center">
             Error al cargar las actividades. Intenta recargar la página.
           </div>
         `;
         
-        toggleViewBtn.disabled = true;
-        progressContainer.classList.add('d-none');
+        elementos.toggleViewBtn.disabled = true;
+        elementos.progressContainer.classList.add('d-none');
       }
     });
 
