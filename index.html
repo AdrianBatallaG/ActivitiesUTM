@@ -149,7 +149,7 @@
                   dia: c[0]?.v || "",
                   hora: c[1]?.v || "",
                   materia: c[2]?.v || "",
-                  aula: c[3]?.v ? (esEnlace(c[3].v) ? `<a href="${formatearEnlace(c[3].v)}" target="_blank">Aula Virtual</a>` : c[3].v) : ""
+                  aula: c[3]?.v ? (esEnlace(c[3].v) ? `<a href="${formatearEnlace(c[3].v)}" target="_blank">Enlace a la clase</a>` : c[3].v) : ""
                 };
               });
             } catch (e) {
