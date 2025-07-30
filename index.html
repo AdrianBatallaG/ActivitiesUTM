@@ -447,7 +447,7 @@
 
         let filasHTML = '';
         examenesData.forEach(examen => {
-          // Si el campo dia es un objeto tipo celda de Google Sheets, usa formatFecha
+          
           let fechaFormateada = examen.dia;
           if (typeof examen.dia === 'object' && examen.dia !== null) {
             fechaFormateada = formatFecha(examen.dia);
