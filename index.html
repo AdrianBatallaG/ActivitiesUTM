@@ -19,13 +19,13 @@
     <button id="toggleView" class="btn btn-outline-primary">
       Ver como Lista
     </button>
-    <button id="toggleVencidas" class="btn btn-outline-secondary">
+    <button id="toggleVencidas" class="btn btn-outline-danger">
       Mostrar vencidas
     </button>
-    <button id="verHorarios" class="btn btn-outline-info">
+   <button id="verHorarios" class="btn btn-outline-success">
       Ver horarios
     </button>
-      <button id="toggleView" class="btn btn-outline-warning">
+      <button id="verExamenes" class="btn btn-outline-warning">
       Horarios de Examen
     </button>
   </div>
@@ -88,6 +88,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       const sheetID = "1gpQfqJbIcWaNMjXOmqXMdj5riHjGZY_eguo1hnmGgv4";
       const gidHorarios = "1765547223"; 
+      const gidExamenes = "1669097880";
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
       
       const elementos = {
@@ -97,12 +98,14 @@
         carouselContainer: document.getElementById('carouselContainer'),
         progressContainer: document.getElementById('progressContainer'),
         toggleVencidasBtn: document.getElementById('toggleVencidas'),
-        verHorariosBtn: document.getElementById('verHorarios')
+        verHorariosBtn: document.getElementById('verHorarios'),
+        verExamenesBtn: document.getElementById('verExamenes')
       };
 
       let mostrarVencidas = false;
       let actividadesData = [];
       let horariosData = [];
+      let examenesData = [];
 
       
       fetch(url)
@@ -114,6 +117,10 @@
             
             cargarHorarios(sheetID, gidHorarios).then(data => {
               horariosData = data;
+            });
+
+            cargarExamenes(sheetID, gidExamenes).then(data => {
+              examenesData = data;
             });
 
             filtrarYMostrarActividades();
@@ -134,9 +141,11 @@
       elementos.toggleViewBtn.addEventListener('click', toggleVista);
       elementos.toggleVencidasBtn.addEventListener('click', toggleActividadesVencidas);
       elementos.verHorariosBtn.addEventListener('click', mostrarHorariosModal);
+      elementos.verExamenesBtn.addEventListener('click', mostrarExamenesModal);
 
       function cargarHorarios(sheetID, gid) {
         const horariosUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&gid=${gid}`;
+        
         
         return fetch(horariosUrl)
           .then(res => {
@@ -166,6 +175,35 @@
           });
       }
 
+     function cargarExamenes(sheetID, gid) {
+  const examenesUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&gid=${gid}`;
+  return fetch(examenesUrl)
+    .then(res => {
+      if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+      return res.text();
+    })
+    .then(text => {
+      try {
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        return json.table.rows.map(row => {
+          const c = row.c;
+          return {
+            dia: formatFecha(c[0]), 
+            hora: c[1]?.v || "",
+            materia: c[2]?.v || "",
+            aula: c[3]?.v || ""
+          };
+        });
+      } catch (e) {
+        console.error("Error al parsear examenes:", e);
+        return [];
+      }
+    })
+    .catch(error => {
+      console.error("Error al cargar examenes:", error);
+      return [];
+    });
+}
       function esEnlace(texto) {
         return texto.includes('http://') || texto.includes('https://');
       }
@@ -401,6 +439,70 @@
         modal.show();
       }
 
+      function mostrarExamenesModal() {
+        if (examenesData.length === 0) {
+          alert("Los horarios de examen no se han cargado todavía. Intenta nuevamente en unos momentos.");
+          return;
+        }
+
+        let filasHTML = '';
+        examenesData.forEach(examen => {
+          // Si el campo dia es un objeto tipo celda de Google Sheets, usa formatFecha
+          let fechaFormateada = examen.dia;
+          if (typeof examen.dia === 'object' && examen.dia !== null) {
+            fechaFormateada = formatFecha(examen.dia);
+          }
+          filasHTML += `
+            <tr>
+              <td>${fechaFormateada || ''}</td>
+              <td>${examen.hora || ''}</td>
+              <td>${examen.materia || ''}</td>
+              <td>${examen.aula || ''}</td>
+            </tr>
+          `;
+        });
+
+        const modalHTML = `
+          <div class="modal fade" id="examenesModal" tabindex="-1" aria-labelledby="examenesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="examenesModalLabel">Horarios de Examen</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-horarios">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Día</th>
+                          <th>Hora</th>
+                          <th>Materia</th>
+                          <th>Aula</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${filasHTML}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (!document.getElementById('examenesModal')) {
+          document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('examenesModal'));
+        modal.show();
+      }
+
       function esClaseActual(dia, rangoHoras) {
         const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
         const hoy = diasSemana[new Date().getDay()];
@@ -419,15 +521,22 @@
       }
 
       function formatFecha(cell) {
-        if (!cell || !cell.f) return "No especificada";
-        const match = cell.v.match(/Date\((\d+),(\d+),(\d+)\)/);
-        if (match) {
-          const anio = parseInt(match[1]);
-          const mes = parseInt(match[2]) + 1;
-          const dia = parseInt(match[3]);
-          return `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${anio}`;
+        if (!cell) return "No especificada";
+        let valor = cell;
+        if (typeof cell === 'object' && cell !== null) {
+          valor = cell.v;
         }
-        return cell.v;
+        if (typeof valor === 'string') {
+          const match = valor.match(/Date\((\d+),(\d+),(\d+)\)/);
+          if (match) {
+            const anio = parseInt(match[1]);
+            const mes = parseInt(match[2]) + 1;
+            const dia = parseInt(match[3]);
+            return `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${anio}`;
+          }
+          return valor;
+        }
+        return "No especificada";
       }
 
       function setupCarouselControls() {
